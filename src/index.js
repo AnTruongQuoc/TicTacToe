@@ -12,21 +12,22 @@ const Square = ({ value, onClickSquare, winClass }) => {
     );
 }
 
-const Board = ({squares, onClick }) => {
+const Board = ({winning, squares, onClick }) => {
+    const [winPath, setWinPath] = useState(null);
+
+    useEffect(() => {
+        setWinPath(winning);
+    }, [winning])
     
-   
-    
-    
-    const renderSquare = (row, col) => {
-        let winningClass = 'no-win'
-    
-        
+
+    const renderSquare = (row, col, classWin) => {
+        //console.log(`Check render square (${row},${col})`);
         return (
             <Square
                 key={row * 12 + col * 5 + 2}
                 value={squares[row][col]}
                 onClickSquare={() => onClick(row, col)}
-                winClass={winningClass}
+                winClass={classWin}
             />
         );
     }
@@ -38,8 +39,18 @@ const Board = ({squares, onClick }) => {
                     return (
                         <div className="board-row" key={indexRow}>
                             {
-                                row.map((colValue, indexCol) => {  
-                                    return renderSquare(indexRow, indexCol)
+                                row.map((colValue, indexCol) => {
+                                    let classWin = 'no-win'
+
+                                    for(let i=0; i < 5; i++){
+                                        if(!winPath) break
+                                        if(winPath[i][0] === indexRow && winPath[i][1] === indexCol){
+                                            classWin = 'win-active'
+                                            break
+                                        }
+                                    }
+                                    
+                                    return renderSquare(indexRow, indexCol, classWin)
                                 })
                             }
                         </div>
@@ -56,7 +67,7 @@ const Game = () => {
     const [history, setHistory] = useState([{ squares: create2DArray(5, 5) }]);
     const [xIsNext, setXIsNext] = useState(true);
     const [stepNumber, setStepNumber] = useState(0);
-    const [current, setCurrent] = useState(create2DArray(5, 5));
+    //const [current, setCurrent] = useState(create2DArray(5, 5));
     const [activeHistory, setActiceHistory] = useState(0);
     const [playerHistory, setPlayerHistory] = useState([{ player: null, position: { rowVal: null, colVal: null } }]);
     const [isReversed, setIsReversed] = useState(false);
@@ -88,11 +99,11 @@ const Game = () => {
 
         setHistory(history_copy.concat([{ squares: squares_copy }]));
         setStepNumber(history_copy.length);
-        setCurrent([...squares_copy]);
+        //setCurrent([...squares_copy]);
         setXIsNext(!xIsNext);
         setActiceHistory(history_copy.length);
         setPlayerHistory(pHis_copy.concat(pHis_curr));
-        console.log(`(${row},${col} ) U click and saved`);
+        
     }
 
     const jumpTo = (step) => {
@@ -100,10 +111,10 @@ const Game = () => {
         setXIsNext((step % 2) === 0);
         setActiceHistory(step);
 
-        const cHistory = history.slice(0, step + 1);
-        const cBlock = cHistory[step];
-        const cSquare = cBlock.squares.map(e => e.slice(0));
-        setCurrent([...cSquare]);
+        // const cHistory = history.slice(0, step + 1);
+        // const cBlock = cHistory[step];
+        // const cSquare = cBlock.squares.map(e => e.slice(0));
+        // setCurrent([...cSquare]);
     }
     //=====================================================================
 
@@ -115,8 +126,7 @@ const Game = () => {
 
     if (winner) {
         status = 'Winner: ' + (xIsNext ? 'O' : 'X');
-        //setWinPath(winner);
-        localStorage.setItem('winPath', winner);
+        console.log('path ', winner);
     } else {
         if (stepNumber >= 25) {
             status = '--> DRAW !!!!!'
@@ -129,6 +139,7 @@ const Game = () => {
     let moves;
 
     if (!isReversed) {
+        
         moves = history.map((step, move) => {
             const desc = move ?
                 `${move+1}. Player ${playerHistory[move].player}: (${playerHistory[move].position.rowVal},${playerHistory[move].position.colVal}) - Go to move #${move}` :
@@ -140,6 +151,7 @@ const Game = () => {
             );
         })
     } else {
+        
         let reverseHistory = [];
 
         const history_copy = history.slice(0);
@@ -174,7 +186,8 @@ const Game = () => {
         <div className="game">
             <div className="game-board">
                 <Board
-                    squares={current}
+                    winning={winner}
+                    squares={history[stepNumber].squares}
                     onClick={(i, j) => handleClick(i, j)}
                 />
             </div>

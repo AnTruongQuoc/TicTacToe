@@ -27,16 +27,24 @@ export const calcWinner = (squares) => {
         }
         
         if(allEqual(squares[i])) {
-            //console.log(winPath);
             return winPath
         };
     }
 
     //Vertical check
+    winPath = []
     for (let j = 0; j < verLength; j++) {
         let arr = squares.map(row => row[j]);
         
-        if(allEqual(arr)) return true;
+        for(let i=0; i < hozLength; i++){
+            winPath.push([i, j]);
+        }
+
+        if(allEqual(arr)) {
+            return winPath
+        }else {
+            winPath = []
+        }
     }
 
     //Diagonal case
@@ -45,32 +53,37 @@ export const calcWinner = (squares) => {
     let checkDia1 = true, checkDia2 = true;
 
     //Check Diagonal \
+    winPath = []
     for (let k = 0; k < hozLength; k++){
         if(squares[k][k] !== null){
             arrDiagonal1.push(squares[k][k]);
+            winPath.push([k,k]);
         }
         else {checkDia1 = false};  
         
     }
     if(checkDia1) {
         if(allEqual(arrDiagonal1)){
-            return true;
+            return winPath;
         }
     }
     //Check Diagonal /
+    winPath = []
     for (let k = 0; k < hozLength; k++){
         if(squares[k][(hozLength-1)-k] !== null){
             arrDiagonal2.push(squares[k][(hozLength-1)-k]);
+            winPath.push([k,(hozLength-1)-k]);
         }
         else {checkDia2 = false};
     }
     
     if(checkDia2){
-        if(allEqual(arrDiagonal2)) return true;
+        if(allEqual(arrDiagonal2)){
+            return winPath;
+        } 
+        
     }
     
-    
-
     return false;
 }
 
