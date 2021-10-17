@@ -1,0 +1,100 @@
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 20px;
+  }
+  
+  ol, ul {
+    padding-left: 30px;
+    list-style-type: none;
+  }
+  
+  .board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  .status {
+    margin-bottom: 10px;
+  }
+  
+  .square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 34px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 34px;
+    cursor: pointer;
+  }
+  .win-active{
+    background-color: rgb(0, 178, 248);
+  }
+  
+  .square:focus {
+    outline: none;
+  }
+  .square:hover {
+    outline: none;
+    background-color: #619ce0;
+  }
+  
+  .kbd-navigation .square:focus {
+    background: #ddd;
+  }
+  
+  .game {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .game-info {
+    margin-left: 20px;
+  }
+
+  .game-info > ol > .active{
+      font-weight: 700;
+  }
+  .game-info > ol > .active > button{
+    font-weight: 700;
+    background-color: #122932;
+    color: #ffffff;
+}
+
+.game-info > ol > li > button{
+    margin: 0.25rem 0;
+    border-width: 0;
+    padding: 0.35rem 0.75rem;
+    background-color: #005eca;
+    color: white;
+    border-radius: 10px;
+}
+.game-info > ol > li > button:hover{
+    background-color: #09447E;
+    transition: background-color .25s ease-in-out;
+}
+
+.game-info > .game-header> button{
+    border-color: #005eca;
+    background-color: #fff;
+    cursor: pointer;
+    margin-left: 15px;
+    border-radius: 10px;
+    padding: 0.3rem 0.5rem;
+    border-style: normal;
+    color: #005eca;
+}
+
+.game-info > .game-header> button:hover{
+    border-color: #fff;
+    background-color: #005eca;
+    color: #fff;
+    border-style: normal;
+    transition: all .5s ease-in-out;
+}
