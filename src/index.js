@@ -142,7 +142,7 @@ const Game = () => {
         
         moves = history.map((step, move) => {
             const desc = move ?
-                `${move+1}. Player ${playerHistory[move].player}: (${playerHistory[move].position.rowVal},${playerHistory[move].position.colVal}) - Go to move #${move}` :
+                `${move+1}. Player ${playerHistory[move].player}: (${playerHistory[move].position.colVal},${playerHistory[move].position.rowVal}) - Go to move #${move}` :
                 `${move+1}. Go to game start`;
             return (
                 <li key={move} className={(activeHistory === move) ? 'active' : ''}>
@@ -171,7 +171,7 @@ const Game = () => {
             const realMove = max - move;
             
             const desc = realMove ?
-                `${realMove+1}. Player ${playerHistory[realMove].player}: (${playerHistory[realMove].position.rowVal},${playerHistory[realMove].position.colVal}) - Go to move #${realMove}` :
+                `${realMove+1}. Player ${playerHistory[realMove].player}: (${playerHistory[realMove].position.colVal},${playerHistory[realMove].position.rowVal}) - Go to move #${realMove}` :
                 `${realMove+1}. Go to game start`;
             return (
                 <li key={realMove} className={(activeHistory === realMove) ? 'active' : ''}>
