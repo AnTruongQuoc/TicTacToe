@@ -28,7 +28,10 @@ export const calcWinner = (squares) => {
         
         if(allEqual(squares[i])) {
             return winPath
-        };
+        }else{
+			winPath=[];
+		}
+		;
     }
 
     //Vertical check
